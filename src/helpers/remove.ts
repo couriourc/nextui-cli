@@ -1,3 +1,4 @@
+import type {Agent} from './detect';
 import type {NextUIComponents} from 'src/constants/component';
 
 import {existsSync, readFileSync, writeFileSync} from 'node:fs';
@@ -11,15 +12,10 @@ import {Logger} from './logger';
 import {getMatchArray, replaceMatchArray} from './match';
 import {getPackageManagerInfo} from './utils';
 
-export async function removeDependencies(components: string[], packageManager: string) {
+export async function removeDependencies(components: string[], packageManager: Agent) {
   const {remove} = getPackageManagerInfo(packageManager);
 
-  await exec(
-    `${packageManager} ${remove} ${components.reduce(
-      (acc, component) => `${acc} ${component}`,
-      ''
-    )}`
-  );
+  await exec(`${packageManager} ${remove} ${components.join(' ')}`);
 
   return;
 }
@@ -56,7 +52,7 @@ export async function removeTailwind(
     tailwindContent = replaceMatchArray('plugins', tailwindContent, pluginsMatch);
 
     // Remove the import nextui content
-    tailwindContent = tailwindContent.replace(/(const|var|let|import)[\w\W]+?nextui.*?;\n/, '');
+    tailwindContent = tailwindContent.replace(/(const|var|let|import)[\W\w]+?nextui.*?;\n/, '');
   }
 
   // If there are already have all nextui content include then don't need to remove the content

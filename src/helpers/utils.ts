@@ -1,3 +1,4 @@
+import type {Agent} from './detect';
 import type {PascalCase, SAFE_ANY} from './type';
 
 import chalk from 'chalk';
@@ -6,6 +7,9 @@ import fg, {type Options} from 'fast-glob';
 import {ROOT} from 'src/constants/path';
 
 import {Logger} from './logger';
+import {colorMatchRegex} from './output-info';
+
+export const versionModeRegex = /([\^~])/;
 
 export function getCommandDescAndLog(log: string, desc: string) {
   Logger.gradient(log);
@@ -70,6 +74,9 @@ export function getUpgradeType({
 }
 
 export function getColorVersion(currentVersion: string, latestVersion: string) {
+  currentVersion = transformPeerVersion(currentVersion);
+  latestVersion = transformPeerVersion(latestVersion);
+
   if (isMajorUpdate(currentVersion, latestVersion)) {
     return isMajorUpdate(currentVersion, latestVersion);
   } else if (isMinorUpdate(currentVersion, latestVersion)) {
@@ -119,7 +126,6 @@ export function isPatchUpdate(currentVersion: string, latestVersion: string) {
 }
 
 export function getVersionAndMode(allDependencies: Record<string, SAFE_ANY>, packageName: string) {
-  const versionModeRegex = /([\^~])/;
   const currentVersion = allDependencies[packageName].replace(versionModeRegex, '');
   const versionMode = allDependencies[packageName].match(versionModeRegex)?.[1] || '';
 
@@ -129,25 +135,48 @@ export function getVersionAndMode(allDependencies: Record<string, SAFE_ANY>, pac
   };
 }
 
-export function getPackageManagerInfo(packageManager: string): {install: string; remove: string} {
+export function getPackageManagerInfo<T extends Agent = Agent>(packageManager: T) {
   const packageManagerInfo = {
     bun: {
       install: 'add',
-      remove: 'remove'
+      remove: 'remove',
+      run: 'run'
     },
     npm: {
       install: 'install',
-      remove: 'uninstall'
+      remove: 'uninstall',
+      run: 'run'
     },
     pnpm: {
       install: 'add',
-      remove: 'remove'
+      remove: 'remove',
+      run: 'run'
     },
     yarn: {
       install: 'add',
-      remove: 'remove'
+      remove: 'remove',
+      run: 'run'
     }
-  };
+  } as const;
 
-  return packageManagerInfo[packageManager];
+  return packageManagerInfo[packageManager] as (typeof packageManagerInfo)[T];
+}
+
+/**
+ * @example transformPeerVersion('>=1.0.0') // '1.0.0'
+ * @param version
+ */
+export function transformPeerVersion(version: string) {
+  return version.replace(/\^|~|>=|<=|>|</g, '');
+}
+
+export function fillAnsiLength(str: string, length: number) {
+  const stripStr = str.replace(colorMatchRegex, '');
+  const fillSpace = length - stripStr.length > 0 ? ' '.repeat(length - stripStr.length) : '';
+
+  return `${str}${fillSpace}`;
+}
+
+export function strip(str: string) {
+  return str.replace(colorMatchRegex, '');
 }

@@ -1,3 +1,34 @@
+## [0.2.1](https://github.com/nextui-org/nextui-cli/compare/v0.2.0...v0.2.1) (2024-05-03)
+
+### Features
+
+- add upgrade version output ([#58](https://github.com/nextui-org/nextui-cli/issues/58)) ([fe30335](https://github.com/nextui-org/nextui-cli/commit/fe303359a127faa9e484c9da741332df8ab6058f))
+- **init:** add package manager and use clack prompt instead ([#59](https://github.com/nextui-org/nextui-cli/issues/59)) ([2a6d593](https://github.com/nextui-org/nextui-cli/commit/2a6d593624e4b3c65b4d971a8728b5916185be0f))
+- optimize warn output ([#57](https://github.com/nextui-org/nextui-cli/issues/57)) ([507bd6c](https://github.com/nextui-org/nextui-cli/commit/507bd6cdfc8ea4ebe88e72ae765a85a4834bc8d4))
+
+# [0.2.0](https://github.com/nextui-org/nextui-cli/compare/v0.1.5...v0.2.0) (2024-04-26)
+
+### Bug Fixes
+
+- ci and compare vesion optimize cache ([#26](https://github.com/nextui-org/nextui-cli/issues/26)) ([ea1ef59](https://github.com/nextui-org/nextui-cli/commit/ea1ef59a71553d7aab7fcbdb6f3856aed00c9ab5))
+- **doctor:** tailwind config error about content nextui plugin detech ([#33](https://github.com/nextui-org/nextui-cli/issues/33)) ([5cfe1f8](https://github.com/nextui-org/nextui-cli/commit/5cfe1f88b0fc562942d676c65120acfb984f93d8)), closes [#28](https://github.com/nextui-org/nextui-cli/issues/28) [#27](https://github.com/nextui-org/nextui-cli/issues/27)
+- output component lose alignment ([#54](https://github.com/nextui-org/nextui-cli/issues/54)) ([b84f009](https://github.com/nextui-org/nextui-cli/commit/b84f009be9bee1617429ad9519baa6a1fa3c9690))
+- **upgrade:** add bun commands ([#34](https://github.com/nextui-org/nextui-cli/issues/34)) ([406138c](https://github.com/nextui-org/nextui-cli/commit/406138c5ed3b002d67f51db24d2fa225e9c32671))
+
+### Features
+
+- add bug report & feature request template ([#24](https://github.com/nextui-org/nextui-cli/issues/24)) ([38e4c7c](https://github.com/nextui-org/nextui-cli/commit/38e4c7c37489c174291d8b9d59ad59469906f7c6))
+- add eslint rule about use build-in import node module ([#48](https://github.com/nextui-org/nextui-cli/issues/48)) ([2971a49](https://github.com/nextui-org/nextui-cli/commit/2971a49a1c115715447f291caef1aadc71473537))
+- add project name prompt to init-action ([#25](https://github.com/nextui-org/nextui-cli/issues/25)) ([3166252](https://github.com/nextui-org/nextui-cli/commit/3166252d8a4f81b9babbb19f9edb4ed758e569f3))
+- add warn attention in add and remove command ([#38](https://github.com/nextui-org/nextui-cli/issues/38)) ([5aa7d23](https://github.com/nextui-org/nextui-cli/commit/5aa7d23951998cb296fba7a5a956be236fb8a8ae))
+- **docs:** add logo, project title, and badges ([#35](https://github.com/nextui-org/nextui-cli/issues/35)) ([06ac57e](https://github.com/nextui-org/nextui-cli/commit/06ac57e6c18bade7c6dc3ce28a9b105fe66b94e1))
+- init command add guide ([#36](https://github.com/nextui-org/nextui-cli/issues/36)) ([d4fd41a](https://github.com/nextui-org/nextui-cli/commit/d4fd41a426933e7e13b9501b9d64c260fe9e95e7))
+- optimize getPackageManagerInfo type ([#52](https://github.com/nextui-org/nextui-cli/issues/52)) ([10a6f56](https://github.com/nextui-org/nextui-cli/commit/10a6f569e45560c743d715fa99b9e0d62fab1ddc))
+- optimize output ([#41](https://github.com/nextui-org/nextui-cli/issues/41)) ([f598bdc](https://github.com/nextui-org/nextui-cli/commit/f598bdc2327b7b73d25a2926c282693e15cd5820))
+- optimize removeDep type ([#53](https://github.com/nextui-org/nextui-cli/issues/53)) ([faa34d8](https://github.com/nextui-org/nextui-cli/commit/faa34d8cd28176e3e62d9f97c3cf4a4a89f272db))
+- optimize runtime speed and add fetching state ([#31](https://github.com/nextui-org/nextui-cli/issues/31)) ([ce57f30](https://github.com/nextui-org/nextui-cli/commit/ce57f300ae4253777f3c9742d53e0a00c90b39fa))
+- upgrade command add peerDep upgrade ([#30](https://github.com/nextui-org/nextui-cli/issues/30)) ([d5931e8](https://github.com/nextui-org/nextui-cli/commit/d5931e8eefad1cf115da541cc2a5fc912aae7d8e)), closes [#42](https://github.com/nextui-org/nextui-cli/issues/42)
+
 ## 0.1.5 (2024-04-16)
 
 ### Bug Fixes

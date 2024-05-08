@@ -1,11 +1,16 @@
-import {exec} from 'child_process';
+import {exec} from 'node:child_process';
 import {existsSync, readFileSync, writeFileSync} from 'node:fs';
 
 import retry from 'async-retry';
+import chalk from 'chalk';
+import {oraPromise} from 'ora';
 
 import {Logger} from '@helpers/logger';
+import {transformPeerVersion} from '@helpers/utils';
 import {COMPONENTS_PATH} from 'src/constants/path';
 import {getStore} from 'src/constants/store';
+
+export type Dependencies = Record<string, string>;
 
 export type Components = {
   name: string;
@@ -15,6 +20,7 @@ export type Components = {
   description: string;
   status: string;
   style: string;
+  peerDependencies: Dependencies;
 }[];
 
 export type ComponentsJson = {
@@ -31,6 +37,9 @@ export type ComponentsJson = {
  * @param version2
  */
 export function compareVersions(version1: string, version2: string) {
+  version1 = transformPeerVersion(version1);
+  version2 = transformPeerVersion(version2);
+
   const parts1 = version1.split('.').map(Number);
   const parts2 = version2.split('.').map(Number);
 
@@ -113,27 +122,39 @@ export async function autoUpdateComponents(latestVersion?: string) {
 export async function downloadFile(url: string): Promise<Components> {
   let data;
 
-  await retry(
-    async (bail) => {
-      try {
-        const result = await fetch(url, {
-          body: null,
-          headers: {
-            'Content-Type': 'application/json',
-            accept:
-              'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
-          },
-          method: 'GET',
-          mode: 'cors'
-        });
+  await oraPromise(
+    retry(
+      async (bail) => {
+        try {
+          const result = await fetch(url, {
+            body: null,
+            headers: {
+              'Content-Type': 'application/json',
+              accept:
+                'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
+            },
+            method: 'GET',
+            mode: 'cors'
+          });
 
-        data = JSON.parse(await result.text());
-      } catch (error) {
-        bail(error);
+          data = JSON.parse(await result.text());
+        } catch (error) {
+          bail(error);
+        }
+      },
+      {
+        retries: 3
       }
-    },
+    ),
     {
-      retries: 3
+      failText(error) {
+        Logger.prefix('error', `Update components data error: ${error}`);
+        process.exit(1);
+      },
+      successText: (() => {
+        return chalk.greenBright('Components data updated successfully!\n');
+      })(),
+      text: 'Fetching components data...'
     }
   );
 

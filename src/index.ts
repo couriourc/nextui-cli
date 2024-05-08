@@ -29,7 +29,7 @@ const nextui = new Command();
 nextui
   .name('nextui')
   .usage('[command]')
-  .description(`${chalk.blue(getCommandDescAndLog(`\nNextUI CLI v${pkg.version}\n`, ''))}`)
+  .description(getCommandDescAndLog(`\nNextUI CLI v${pkg.version}\n`, ''))
   .version(pkg.version, '-v, --version', 'Output the current version')
   .helpOption('-h, --help', 'Display help for command')
   .allowUnknownOption()
@@ -81,8 +81,7 @@ nextui
   .description('Initializes a new project')
   .argument('[projectName]', 'Name of the project to initialize')
   .option('-t --template [string]', 'Specify a template for the new project, e.g., app, pages')
-  /** ======================== TODO:(winches)Temporary use npm with default value ======================== */
-  // .option('-p --package [string]', 'The package manager to use for the new project')
+  .option('-p --package [string]', 'The package manager to use for the new project', 'npm')
   .action(initAction);
 
 nextui
@@ -159,13 +158,14 @@ nextui.hook('preAction', async (command) => {
 
   if (compareVersions(currentVersion, cliLatestVersion) === -1) {
     outputBox({
+      center: true,
       color: 'yellow',
       padding: 1,
       text: `${chalk.gray(
         `Available upgrade: v${currentVersion} -> ${chalk.greenBright(
           `v${cliLatestVersion}`
         )}\nRun \`${chalk.cyan(
-          'npm install nextui-cli@latest'
+          'npm install -g nextui-cli@latest'
         )}\` to upgrade\nChangelog: ${chalk.underline(
           'https://github.com/nextui-org/nextui-cli/releases'
         )}`
